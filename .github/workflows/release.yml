@@ -150,9 +150,9 @@ jobs:
             set -e
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose pull
+            sudo docker compose pull
             export APP_ID=$(docker compose run --entrypoint "id -u" --rm app)
-            docker compose run --entrypoint "chown $APP_ID:$APP_ID /app/App_Data" --user root --rm app
+            sudo docker compose run --entrypoint "chown $APP_ID:$APP_ID /app/App_Data" --user root --rm app
 
       # Deploy Docker image with your application using `docker compose up` remotely
       - name: remote docker-compose up via ssh
@@ -169,5 +169,5 @@ jobs:
           script: |
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose pull
-            docker compose up app -d
+            sudo docker compose pull
+            sudo docker compose up app -d
